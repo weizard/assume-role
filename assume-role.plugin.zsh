@@ -19,7 +19,7 @@ remove_role() {
 alias vscode=code
 
 assume_role() {
-  # echo Password: && eval $(su _2fa -c "~/2fa {2fa_account}" | grep -o '[0-9]\{6\}' | assume-role $@ 2>&1 | grep -o "export .*")
+  # eval $(sudo 2fa {2fa_account}" | assume-role $@ 2>&1 | grep -o "export .*")
   eval $(command assume-role $@);
   export ASSUME_DURING=$(date -v +1H +%s); 
 }
