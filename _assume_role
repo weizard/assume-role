@@ -1,0 +1,30 @@
+#compdef assume_role
+#autoload
+
+__assume_role_common_commands() {
+  local -a commands
+  commands=("${(f)$(cat ~/.aws/config | grep -o "\[profile [[a-z-]*]" | grep -o " [a-z-]*" | tr -d " ")}")
+  _describe -t common-commands 'common commands' commands
+}
+
+__assume_role_commands() {
+  # TODO remove duplicates between common and all commands
+  _alternative \
+    'common-commands:command:__assume_role_common_commands'
+}
+
+# the main completion function
+_assume_role() {
+  local curcontext="$curcontext" state state_descr line expl
+  local ret=1
+
+  _arguments -C : \
+    '1:command:->command' \
+
+  case "$state" in
+    command) __assume_role_commands && return 0 ;;
+
+  esac
+}
+
+_assume_role "$@"
